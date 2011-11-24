@@ -4,7 +4,7 @@
   <title><![CDATA[Category: javascript | BrettBeers]]></title>
   <link href="http://beersbr.github.com/blog/categories/javascript/atom.xml" rel="self"/>
   <link href="http://beersbr.github.com/"/>
-  <updated>2011-11-23T13:28:40-07:00</updated>
+  <updated>2011-11-23T23:42:08-07:00</updated>
   <id>http://beersbr.github.com/</id>
   <author>
     <name><![CDATA[Brett Beers]]></name>
@@ -14,7 +14,48 @@
 
   
   <entry>
-    <title type="html"><![CDATA[And so it begins...]]></title>
+    <title type="html"><![CDATA[Canvas part 2: Shapes and stuff]]></title>
+    <link href="http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff/"/>
+    <updated>2011-11-23T13:41:00-07:00</updated>
+    <id>http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff</id>
+    <content type="html"><![CDATA[<h3>A little more interesting</h3>
+
+<p>The last tutorial I just showed how to get the canvas up on a page and into a state that something could be done with it. But drawing rectangles is kinda boring. So now I'll show you something a little more interesting.</p>
+
+<h3>Shapes!</h3>
+
+<p>Shapes are made by using paths to vertecies. For this we use the <code>moveTo(x, y)</code> and <code>lineTo(x, y)</code> methods.</p>
+
+<ul>
+<li><p><code>moveTo(x, y)</code> will move you to a point (x, y) without tracing the path to that point (x and y are pixel units). You usually use it for the start of your path.</p></li>
+<li><p><code>lineTo(x, y)</code> will move you to a point (x, y) and trace the path there. So when we call <code>fill()</code> or <code>stroke()</code> (we will discuss them shortly ) we have something to draw.</p></li>
+</ul>
+
+
+<p>Let's have a look at the javascript:</p>
+
+<p>``` javascript paths http://tinkerbin.com/J92xNsA6
+window.onload = function(){
+  var cvs = document.getElementById('c');
+  var ctx = cvs.getContext('2d');</p>
+
+<p>  ctx.moveTo(50, 50);
+  ctx.lineTo(250, 50);
+  ctx.lineTo(150, 150);
+  ctx.lineTo(50, 50);
+  ctx.strokeStyle = "rgb(0, 255, 0)";
+  ctx.stroke();
+}
+```</p>
+
+<p>We do a few things here. First we grab the canvas element. Then we <code>moveTo(50, 50)</code> which moves our invisible cursor to point 50, 50 on the canvas where the positive Y moves down instead of up. The next thing we do is use <code>lineTo(250, 50)</code> which will make a line from (50, 50), the previous point, to (250, 50) on the canvas. We do this several time till we close the shape with the <code>lineTo(50, 50)</code> from (150, 150).</p>
+
+<p>Finally we draw the shape by calling <code>stroke()</code>. Shapes like this wont be drawn unless you call either stroke, drawing only the outline of the shape, or fill which will fill the shape in for you. You can call both to get a stroke and fill. Check out the <a href="http://tinkerbin.com/J92xNsA6">link</a> to play around with it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Canvas part 1: And so it begins...]]></title>
     <link href="http://beersbr.github.com/blog/2011/11/22/and-so-it-began-dot-dot-dot/"/>
     <updated>2011-11-22T23:41:00-07:00</updated>
     <id>http://beersbr.github.com/blog/2011/11/22/and-so-it-began-dot-dot-dot</id>

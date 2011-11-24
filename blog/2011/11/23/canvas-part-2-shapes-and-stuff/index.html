@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>BrettBeers</title>
+  <title>Canvas part 2: Shapes and stuff - BrettBeers</title>
   <meta name="author" content="Brett Beers">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://beersbr.github.com">
+  <link rel="canonical" href="http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -60,15 +60,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/11/23/canvas-part-2-shapes-and-stuff/">Canvas Part 2: Shapes and Stuff</a></h1>
+      <h1 class="entry-title">Canvas Part 2: Shapes and Stuff</h1>
     
     
       <p class="meta">
@@ -91,7 +88,7 @@
   </header>
 
 
-  <div class="entry-content"><h3>A little more interesting</h3>
+<div class="entry-content"><h3>A little more interesting</h3>
 
 <p>The last tutorial I just showed how to get the canvas up on a page and into a state that something could be done with it. But drawing rectangles is kinda boring. So now I&#8217;ll show you something a little more interesting.</p>
 
@@ -136,22 +133,16 @@
 
 <p>Finally we draw the shape by calling <code>stroke()</code>. Shapes like this wont be drawn unless you call either stroke, drawing only the outline of the shape, or fill which will fill the shape in for you. You can call both to get a stroke and fill. Check out the <a href="http://tinkerbin.com/J92xNsA6">link</a> to play around with it.</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/22/and-so-it-began-dot-dot-dot/">Canvas Part 1: And So It Begins&#8230;</a></h1>
-    
-    
-      <p class="meta">
-        
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Brett Beers</span></span>
+
+      
 
 
 
@@ -163,104 +154,40 @@
   
 
 
-<time datetime="2011-11-22T23:41:00-07:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2011</time>
-        
-      </p>
+<time datetime="2011-11-23T13:41:00-07:00" pubdate data-updated="true">Nov 23<span>rd</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/tutorial/'>tutorial</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><h3>The programmers obligatory disclamer</h3>
-
-<p>This is the first post of some tutorials and discoveries with HTML5&#8217;s canvas with javascript. I&#8217;m sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.</p>
-
-<h3>Starting out with your first canvas</h3>
-
-<p>What makes working with canavs so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
-</span><span class='line'><span class="nt">&lt;head&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;script&gt;</span>
-</span><span class='line'>      <span class="c1">// We will just put our javascript right in the head</span>
-</span><span class='line'>  <span class="nt">&lt;/script&gt;</span>
-</span><span class='line'><span class="nt">&lt;/head&gt;</span>
-</span><span class='line'><span class="nt">&lt;body&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;canvas</span> <span class="na">id=</span><span class="s">&#39;c&#39;</span> <span class="na">width=</span><span class="s">640</span> <span class="na">height=</span><span class="s">480</span><span class="nt">&gt;&lt;/canvas&gt;</span>
-</span><span class='line'><span class="nt">&lt;/body&gt;</span>
-</span><span class='line'><span class="nt">&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That was easy enough right? Now iff you run this you probably wont see anything, as the background of the canvas is probably white. So let&#8217;s draw some stuff on the screen.</p>
-
-<figure class='code'><figcaption><span>yellow_rectangle </span><a href='http://tinkerbin.com/H4Bdbt4B'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//&lt;head&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgb(255, 255, 0)&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//&lt;/head&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assignt that to ctx. Now that we have a context to draw on we can set the fillStyle of the context. The fillStyle tells the context what color to fill objects with.
-You can use several forms for specifying the color:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="s2">&quot;rgb(255, 255, 255)&quot;</span><span class="p">;</span> <span class="c1">// is white</span>
-</span><span class='line'><span class="s2">&quot;rgba(255, 255, 200, 1.0)&quot;</span><span class="p">;</span> <span class="c1">// is very pale yellow</span>
-</span><span class='line'><span class="s2">&quot;#ffffee&quot;</span><span class="p">;</span> <span class="c1">// is also pale yellow</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After that we call fillRect. This method will just create the rectangle on the canvas. The syntax is:</p>
-
-<pre><code>fillRect(x, y, width, height)
-</code></pre>
-
-<h3>There you have it!</h3>
-
-<p>Now that you know how to get started with the canvas try drawing some other objects. You can just take a look at <a href="http://tinkerbin.com/H4Bdbt4B" title="tinkerbin">this</a> tinkerbin. Look out for the next tutorial on more complex shapes.</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff/" data-via="mramaizng" data-counturl="http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff/" >Tweet</a>
+  
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/11/22/and-so-it-began-dot-dot-dot/" title="Previous Post: Canvas part 1: And so it begins...">&laquo; Canvas part 1: And so it begins...</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -272,7 +199,7 @@ You can use several forms for specifying the color:</p>
       </li>
     
       <li class="post">
-        <a href="/blog/2011/11/22/and-so-it-began-dot-dot-dot/">Canvas part 1: And so it begins&#8230;</a>
+        <a href="/blog/2011/11/22/and-so-it-began-dot-dot-dot/">Canvas part 1: And so it begins...</a>
       </li>
     
   </ul>
@@ -281,7 +208,7 @@ You can use several forms for specifying the color:</p>
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/beersbr">@beersbr</a> on Github
@@ -311,7 +238,7 @@ You can use several forms for specifying the color:</p>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -330,6 +257,7 @@ You can use several forms for specifying the color:</p>
 
   
 </aside>
+
 
     </div>
   </div>

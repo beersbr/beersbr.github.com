@@ -2,14 +2,18 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://beersbr.github.com/blog/2011/11/22/and-so-it-began-dot-dot-dot/</loc>
-        <lastmod>2011-11-23T13:25:40-07:00</lastmod>
+        <lastmod>2011-11-23T13:41:59-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff/</loc>
+        <lastmod>2011-11-23T23:41:42-07:00</lastmod>
     </url>
     <url>
         <loc>http://beersbr.github.com/blog/archives/</loc>
-        <lastmod>2011-11-23T13:25:40-07:00</lastmod>
+        <lastmod>2011-11-23T23:41:42-07:00</lastmod>
     </url>
     <url>
         <loc>http://beersbr.github.com/</loc>
-        <lastmod>2011-11-23T13:25:40-07:00</lastmod>
+        <lastmod>2011-11-23T23:41:42-07:00</lastmod>
     </url>
 </urlset>
