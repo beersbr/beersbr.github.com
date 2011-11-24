@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "And so it begins..."
+title: "Canvas part 1: And so it begins..."
 date: 2011-11-22 23:41
 comments: true
 categories: tutorial javascript programming
