@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Canvas part 2: Shapes and stuff - BrettBeers</title>
+  <title>Canvas Part 3: A change in direction - BrettBeers</title>
   <meta name="author" content="Brett Beers">
 
   
-  <meta name="description" content="A little more interesting The last tutorial I just showed how to get the canvas up on a page and into a state that something could be done with it. &hellip;">
+  <meta name="description" content="Game programming in canvas Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff">
+  <link rel="canonical" href="http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -65,7 +65,7 @@
   
   <header>
     
-      <h1 class="entry-title">Canvas Part 2: Shapes and Stuff</h1>
+      <h1 class="entry-title">Canvas Part 3: A Change in Direction</h1>
     
     
       <p class="meta">
@@ -81,7 +81,7 @@
   
 
 
-<time datetime="2011-11-23T13:41:00-07:00" pubdate data-updated="true">Nov 23<span>rd</span>, 2011</time>
+<time datetime="2011-11-24T00:00:00-07:00" pubdate data-updated="true">Nov 24<span>th</span>, 2011</time>
         
          | <a href="#disqus_thread">Comments</a>
         
@@ -90,50 +90,54 @@
   </header>
 
 
-<div class="entry-content"><h3>A little more interesting</h3>
+<div class="entry-content"><h3>Game programming in canvas</h3>
 
-<p>The last tutorial I just showed how to get the canvas up on a page and into a state that something could be done with it. But drawing rectangles is kinda boring. So now I&#8217;ll show you something a little more interesting.</p>
+<p>Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because I love programming games and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc.</p>
 
-<h3>Shapes!</h3>
+<h3>Images in canvas</h3>
 
-<p>Shapes are made by using paths to vertecies. For this we use the <code>moveTo(x, y)</code> and <code>lineTo(x, y)</code> methods.</p>
+<p>As it turns out drawing images on the screen is actually very simple:</p>
 
-<ul>
-<li><p><code>moveTo(x, y)</code> will move you to a point (x, y) without tracing the path to that point (x and y are pixel units). You usually use it for the start of your path.</p></li>
-<li><p><code>lineTo(x, y)</code> will move you to a point (x, y) and trace the path there. So when we call <code>fill()</code> or <code>stroke()</code> (we will discuss them shortly ) we have something to draw.</p></li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">image</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
+</span><span class='line'><span class="nx">i</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/an.img&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p>Let&#8217;s have a look at the javascript:</p>
+<p>Easy, right? Now all we have to do is draw it to the canvas. As luck would have it, that is super easy too!</p>
 
-<figure class='code'><figcaption><span>paths </span><a href='http://tinkerbin.com/J92xNsA6'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">moveTo</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">strokeStyle</span> <span class="o">=</span> <span class="s2">&quot;rgb(0, 255, 0)&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">stroke</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
+</span><span class='line'><span class="nx">i</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/an.img&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">ctx</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>We do a few things here. First we grab the canvas element. Then we <code>moveTo(50, 50)</code> which moves our invisible cursor to point 50, 50 on the canvas where the positive Y moves down instead of up. The next thing we do is use <code>lineTo(250, 50)</code> which will make a line from (50, 50), the previous point, to (250, 50) on the canvas. We do this several time till we close the shape with the <code>lineTo(50, 50)</code> from (150, 150).</p>
+<p>Now that loads an image and draws it on the canvas at (100, 100). There are several <code>drawImage()</code> functions. They are all similar but are good to know so lets go ver them now.</p>
 
-<p>Finally we draw the shape by calling <code>stroke()</code>. Shapes like this wont be drawn unless you call either stroke, drawing only the outline of the shape, or fill which will fill the shape in for you. You can call both to get a stroke and fill. Check out the <a href="http://tinkerbin.com/J92xNsA6">link</a> to play around with it.</p>
+<ul>
+<li><code>drawImage(image, x, y)</code> Draws an image from the top left corner at (x, y). This is the function I used above.</li>
+<li><code>drawImage(image, x, y, width, height)</code> Draws an image to (x, y), as the size width, and height. It is basically a way to scale your images in canvas.</li>
+<li><code>drawImage(image, source_x, source_y, source_height, source_width, destination_x, destination_y, destination_width, destination_height)</code> This one is a bit more complex in that it allows you to slice your image. This is useful for tile-sheets or sprite-maps. Source_* creates a rectangle you want to grab from the original image and destination is where  you are going to put that rectangle. You can tinker around with that by use the code above and playing with each function. I will put up some code as well in the very near future.</li>
+</ul>
+
+
+<p>One thing to note is that you can&#8217;t grab coordinates that are not in the image. For example if you have an image with a width of 100 and height of 100, you can grab coordinates (-1, -1) to (500, 500). From my experience that will produce javascript image read errors.</p>
+
+<h3>Splitting this section</h3>
+
+<p>In an effort to keep these posts at a readable length I am going to split this part into sub parts. This was the image section and I will go over audio and then key events. You can find more information by checking out the <a href="https://developer.mozilla.org/en/HTML/Canvas">MDN docs</a>. You can also just send me a message with any thing you might have. Thank you!</p>
 </div>
 
 
@@ -156,12 +160,12 @@
   
 
 
-<time datetime="2011-11-23T13:41:00-07:00" pubdate data-updated="true">Nov 23<span>rd</span>, 2011</time>
+<time datetime="2011-11-24T00:00:00-07:00" pubdate data-updated="true">Nov 24<span>th</span>, 2011</time>
       
 
 <span class="categories">
   
-    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/tutorial/'>tutorial</a>
+    <a class='category' href='/blog/categories/canvas/'>canvas</a>, <a class='category' href='/blog/categories/game-programming/'>game-programming</a>, <a class='category' href='/blog/categories/html5/'>html5</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
   
 </span>
 
@@ -170,7 +174,7 @@
     
       <div class="sharing">
   
-  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff/" data-via="mramaizng" data-counturl="http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff/" >Tweet</a>
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction/" data-via="mramaizng" data-counturl="http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction/" >Tweet</a>
   
   
   
@@ -181,10 +185,8 @@
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2011/11/22/and-so-it-began-dot-dot-dot/" title="Previous Post: Canvas part 1: And so it begins...">&laquo; Canvas part 1: And so it begins...</a>
+        <a class="basic-alignment left" href="/blog/2011/11/23/canvas-part-2-shapes-and-stuff/" title="Previous Post: Canvas part 2: Shapes and stuff">&laquo; Canvas part 2: Shapes and stuff</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2011/11/24/canvas-part-3-a-change-in-direction/" title="next Post: Canvas Part 3: A change in direction">Canvas Part 3: A change in direction &raquo;</a>
       
     </p>
   </footer>
@@ -288,8 +290,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff/';
-        var disqus_url = 'http://beersbr.github.com/blog/2011/11/23/canvas-part-2-shapes-and-stuff/';
+        var disqus_identifier = 'http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction/';
+        var disqus_url = 'http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction/';
         var disqus_script = 'embed.js';
       
     (function () {

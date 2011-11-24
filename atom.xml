@@ -4,7 +4,7 @@
   <title><![CDATA[BrettBeers]]></title>
   <link href="http://beersbr.github.com/atom.xml" rel="self"/>
   <link href="http://beersbr.github.com/"/>
-  <updated>2011-11-23T23:42:08-07:00</updated>
+  <updated>2011-11-24T00:35:47-07:00</updated>
   <id>http://beersbr.github.com/</id>
   <author>
     <name><![CDATA[Brett Beers]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Canvas Part 3: A change in direction]]></title>
+    <link href="http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction/"/>
+    <updated>2011-11-24T00:00:00-07:00</updated>
+    <id>http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction</id>
+    <content type="html"><![CDATA[<h3>Game programming in canvas</h3>
+
+<p>Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because I love programming games and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc.</p>
+
+<h3>Images in canvas</h3>
+
+<p>As it turns out drawing images on the screen is actually very simple:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">image</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
+</span><span class='line'><span class="nx">i</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/an.img&quot;</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Easy, right? Now all we have to do is draw it to the canvas. As luck would have it, that is super easy too!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
+</span><span class='line'><span class="nx">i</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/an.img&quot;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">ctx</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that loads an image and draws it on the canvas at (100, 100). There are several <code>drawImage()</code> functions. They are all similar but are good to know so lets go ver them now.</p>
+
+<ul>
+<li><code>drawImage(image, x, y)</code> Draws an image from the top left corner at (x, y). This is the function I used above.</li>
+<li><code>drawImage(image, x, y, width, height)</code> Draws an image to (x, y), as the size width, and height. It is basically a way to scale your images in canvas.</li>
+<li><code>drawImage(image, source_x, source_y, source_height, source_width, destination_x, destination_y, destination_width, destination_height)</code> This one is a bit more complex in that it allows you to slice your image. This is useful for tile-sheets or sprite-maps. Source_* creates a rectangle you want to grab from the original image and destination is where  you are going to put that rectangle. You can tinker around with that by use the code above and playing with each function. I will put up some code as well in the very near future.</li>
+</ul>
+
+
+<p>One thing to note is that you can&#8217;t grab coordinates that are not in the image. For example if you have an image with a width of 100 and height of 100, you can grab coordinates (-1, -1) to (500, 500). From my experience that will produce javascript image read errors.</p>
+
+<h3>Splitting this section</h3>
+
+<p>In an effort to keep these posts at a readable length I am going to split this part into sub parts. This was the image section and I will go over audio and then key events. You can find more information by checking out the <a href="https://developer.mozilla.org/en/HTML/Canvas">MDN docs</a>. You can also just send me a message with any thing you might have. Thank you!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Canvas part 2: Shapes and stuff]]></title>
