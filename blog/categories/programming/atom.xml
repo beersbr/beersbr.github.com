@@ -4,7 +4,7 @@
   <title><![CDATA[Category: programming | BrettBeers]]></title>
   <link href="http://beersbr.github.com/blog/categories/programming/atom.xml" rel="self"/>
   <link href="http://beersbr.github.com/"/>
-  <updated>2011-11-24T00:48:51-07:00</updated>
+  <updated>2011-11-26T22:37:19-07:00</updated>
   <id>http://beersbr.github.com/</id>
   <author>
     <name><![CDATA[Brett Beers]]></name>
@@ -14,15 +14,96 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Canvas Part 3: A change in direction]]></title>
+    <title type="html"><![CDATA[Canvas part 3.1: Adding audio]]></title>
+    <link href="http://beersbr.github.com/blog/2011/11/26/canvas-part-3-dot-1-adding-audio/"/>
+    <updated>2011-11-26T21:49:00-07:00</updated>
+    <id>http://beersbr.github.com/blog/2011/11/26/canvas-part-3-dot-1-adding-audio</id>
+    <content type="html"><![CDATA[<h3>Game programming in canvas</h3>
+
+<p>This is just a continuation of what I started in the last post. I covered images, so I though audio would be a good next step. Here we go...</p>
+
+<h3>Audio in javascript</h3>
+
+<p>Games aren't really complete without audio most of the time. I have not yet figured out how to gain full control of sound in javascript but here is a good first step -- Similar to the previous post on images we are going to create the element in javascript like so:</p>
+
+<p>``` javascript</p>
+
+<pre><code>var sound = document.createElement("audio");
+sound.src = "path/to/file.ogg"; // or .wav
+
+// load the sound
+sound.load();
+sound.play();
+</code></pre>
+
+<p>```</p>
+
+<p>As said above the sound file has to be either an <code>.ogg</code> or <code>.wav</code>, at least for now. the <code>load()</code> function will make sure the data is in memory or so I have been told. Next you call <code>play()</code> and the sound will play to completion. Now looking at a context closer to that of a games; say we have an object we would load and then call <code>play()</code> during some collision or some event.</p>
+
+<h4>Example (extremetly contrived):</h4>
+
+<p>``` javascript
+function player(){</p>
+
+<pre><code>var my_pos = {x, y, w, h}; // some data describing this players position  
+var health = 100;
+
+//setup sound data
+var collide_sound = document.createElement('audio');
+collide_sound.src = 'some_sound.ogg';
+collide_sound.load();
+
+this.update = function(close_objects){
+    for(var i in close_objects){
+        if(this.collides_with(close_objects[i])){
+
+            collide_sound.play();
+            health -= 1;
+            // do some stuff 
+        }
+    }
+}
+
+this.draw = function(){
+    // some drawing code here
+}
+
+this.collides_with = function(an_object){
+    // a collision function of some sort
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// then we create a new player object and use it in our game.</p>
+
+<p>```</p>
+
+<p>Just some psudo code to give you an idea of how it would be used. You can also make a nice tune for the game in the background as you can have multiple audio files loaded and they can even be played at the same time.</p>
+
+<h3>Some other neat parts to take note of...</h3>
+
+<ul>
+<li><code>audioELement.currentTime = 10;</code> will set the media time to 10 seconds.</li>
+<li><code>audioElement.duration;</code> will return the duration of the media.</li>
+<li><code>audioElement.pause();</code> will pause the media. There is no <code>stop()</code> for what ever reason but you can unset the src and reset the src (as an ugly hack) if you need to stop it.</li>
+</ul>
+
+
+<p>Those are just handy to remember. As always you can check the <a href="hhttps://developer.mozilla.org/En/Using_audio_and_video_in_Firefox">MDN docs</a>. Hope this helps!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Canvas part 3: A change in direction (or Images)]]></title>
     <link href="http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction/"/>
     <updated>2011-11-24T00:00:00-07:00</updated>
     <id>http://beersbr.github.com/blog/2011/11/24/canvas-part-3-a-change-in-direction</id>
     <content type="html"><![CDATA[<h3>Game programming in canvas</h3>
 
-<p>Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because I love programming games and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc.</p>
+<p>Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because programming games makes things really interesting and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc.</p>
 
-<h3>Images in canvas</h3>
+<h3>Images in canvas (but mostly javascript)</h3>
 
 <p>As it turns out drawing images on the screen is actually very simple:</p>
 

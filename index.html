@@ -9,7 +9,7 @@
   <meta name="author" content="Brett Beers">
 
   
-  <meta name="description" content="Game programming in canvas Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of &hellip;">
+  <meta name="description" content="Game programming in canvas This is just a continuation of what I started in the last post. I covered images, so I though audio would be a good next &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -68,7 +68,146 @@
       
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/11/24/canvas-part-3-a-change-in-direction/">Canvas Part 3: A Change in Direction</a></h1>
+      <h1 class="entry-title"><a href="/blog/2011/11/26/canvas-part-3-dot-1-adding-audio/">Canvas Part 3.1: Adding Audio</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-11-26T21:49:00-07:00" pubdate data-updated="true">Nov 26<span>th</span>, 2011</time>
+        
+         | <a href="/blog/2011/11/26/canvas-part-3-dot-1-adding-audio/#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>Game programming in canvas</h3>
+
+<p>This is just a continuation of what I started in the last post. I covered images, so I though audio would be a good next step. Here we go&#8230;</p>
+
+<h3>Audio in javascript</h3>
+
+<p>Games aren&#8217;t really complete without audio most of the time. I have not yet figured out how to gain full control of sound in javascript but here is a good first step &#8211; Similar to the previous post on images we are going to create the element in javascript like so:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sound</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;audio&quot;</span><span class="p">);</span>
+</span><span class='line'><span class="nx">sound</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;path/to/file.ogg&quot;</span><span class="p">;</span> <span class="c1">// or .wav</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// load the sound</span>
+</span><span class='line'><span class="nx">sound</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
+</span><span class='line'><span class="nx">sound</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As said above the sound file has to be either an <code>.ogg</code> or <code>.wav</code>, at least for now. the <code>load()</code> function will make sure the data is in memory or so I have been told. Next you call <code>play()</code> and the sound will play to completion. Now looking at a context closer to that of a games; say we have an object we would load and then call <code>play()</code> during some collision or some event.</p>
+
+<h4>Example (extremetly contrived):</h4>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">player</span><span class="p">(){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">my_pos</span> <span class="o">=</span> <span class="p">{</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">};</span> <span class="c1">// some data describing this players position  </span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">health</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">//setup sound data</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">collide_sound</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;audio&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">collide_sound</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;some_sound.ogg&#39;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">collide_sound</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">close_objects</span><span class="p">){</span>
+</span><span class='line'>      <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">close_objects</span><span class="p">){</span>
+</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">collides_with</span><span class="p">(</span><span class="nx">close_objects</span><span class="p">[</span><span class="nx">i</span><span class="p">])){</span>
+</span><span class='line'>
+</span><span class='line'>              <span class="nx">collide_sound</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
+</span><span class='line'>              <span class="nx">health</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
+</span><span class='line'>              <span class="c1">// do some stuff </span>
+</span><span class='line'>          <span class="p">}</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">draw</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>      <span class="c1">// some drawing code here</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">collides_with</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">an_object</span><span class="p">){</span>
+</span><span class='line'>      <span class="c1">// a collision function of some sort</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// then we create a new player object and use it in our game.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Just some psudo code to give you an idea of how it would be used. You can also make a nice tune for the game in the background as you can have multiple audio files loaded and they can even be played at the same time.</p>
+
+<h3>Some other neat parts to take note of&#8230;</h3>
+
+<ul>
+<li><code>audioELement.currentTime = 10;</code> will set the media time to 10 seconds.</li>
+<li><code>audioElement.duration;</code> will return the duration of the media.</li>
+<li><code>audioElement.pause();</code> will pause the media. There is no <code>stop()</code> for what ever reason but you can unset the src and reset the src (as an ugly hack) if you need to stop it.</li>
+</ul>
+
+
+<p>Those are just handy to remember. As always you can check the <a href="hhttps://developer.mozilla.org/En/Using_audio_and_video_in_Firefox">MDN docs</a>. Hope this helps!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/11/24/canvas-part-3-a-change-in-direction/">Canvas Part 3: A Change in Direction (or Images)</a></h1>
     
     
       <p class="meta">
@@ -95,9 +234,9 @@
 
   <div class="entry-content"><h3>Game programming in canvas</h3>
 
-<p>Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because I love programming games and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc.</p>
+<p>Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because programming games makes things really interesting and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc.</p>
 
-<h3>Images in canvas</h3>
+<h3>Images in canvas (but mostly javascript)</h3>
 
 <p>As it turns out drawing images on the screen is actually very simple:</p>
 
@@ -357,7 +496,11 @@ You can use several forms for specifying the color:</p>
   <ul id="recent_posts">
     
       <li class="post">
-        <a href="/blog/2011/11/24/canvas-part-3-a-change-in-direction/">Canvas Part 3: A change in direction</a>
+        <a href="/blog/2011/11/26/canvas-part-3-dot-1-adding-audio/">Canvas part 3.1: Adding audio</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/24/canvas-part-3-a-change-in-direction/">Canvas part 3: A change in direction (or Images)</a>
       </li>
     
       <li class="post">
