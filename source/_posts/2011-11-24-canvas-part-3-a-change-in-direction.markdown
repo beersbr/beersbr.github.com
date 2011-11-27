@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Canvas Part 3: A change in direction"
+title: "Canvas part 3: A change in direction (or Images)"
 date: 2011-11-24 00:00
 comments: true
 categories: programming game-programming javascript html5 canvas
@@ -8,9 +8,9 @@ categories: programming game-programming javascript html5 canvas
 
 ### Game programming in canvas
 
-Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because I love programming games and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc. 
+Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because programming games makes things really interesting and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc. 
 
-### Images in canvas
+### Images in canvas (but mostly javascript)
 
 As it turns out drawing images on the screen is actually very simple:
 
