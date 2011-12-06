@@ -16,8 +16,10 @@ As it turns out drawing images on the screen is actually very simple:
 
 ``` javascript
 	var image = new Image();
-	i.src = "/some/path/to/an.img";
+	image.src = "/some/path/to/an.img";
 ```
+
+* edit was made because there was an incorrect variable name in the code above. Fixed 'i' to 'image'
 
 Easy, right? Now all we have to do is draw it to the canvas. As luck would have it, that is super easy too!
 

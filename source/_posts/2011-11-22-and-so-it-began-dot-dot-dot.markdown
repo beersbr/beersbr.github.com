@@ -8,11 +8,11 @@ categories: tutorial javascript programming
 
 ### The programmers obligatory disclamer
 
-This is the first post of some tutorials and discoveries with HTML5's canvas with javascript. I'm sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.
+This is the first post of some tutorials and discoveries with HTML5's canvas using javascript. I'm sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.
 
 ### Starting out with your first canvas
 
-What makes working with canavs so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:
+What makes working with canvas so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:
 
 ``` html
 <html>
@@ -42,7 +42,7 @@ window.onload = function(){
 
 //</head>
 ```
-Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assignt that to ctx. Now that we have a context to draw on we can set the fillStyle of the context. The fillStyle tells the context what color to fill objects with.
+Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assign it to the variable ctx. Now that we have a context to draw on, we can set the `fillStyle` of the context. The `fillStyle` tells the context what color to fill objects with.
 You can use several forms for specifying the color:
 
 ``` javascript
@@ -50,7 +50,7 @@ You can use several forms for specifying the color:
 	"rgba(255, 255, 200, 1.0)"; // is very pale yellow
 	"#ffffee"; // is also pale yellow
 ```
-After that we call fillRect. This method will just create the rectangle on the canvas. The syntax is:
+After that we call `fillRect`. This method will just create the rectangle on the canvas. The syntax is:
 
 	fillRect(x, y, width, height)
 
