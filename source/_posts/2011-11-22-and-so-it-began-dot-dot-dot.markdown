@@ -46,9 +46,9 @@ Now looking at the code, you can probably see everything that is happening. Firs
 You can use several forms for specifying the color:
 
 ``` javascript
-	"rgb(255, 255, 255)"; // is white
-	"rgba(255, 255, 200, 1.0)"; // is very pale yellow
-	"#ffffee"; // is also pale yellow
+	ctx.fillStyle = "rgb(255, 255, 255)"; // is white
+	ctx.fillStyle = "rgba(255, 255, 200, 1.0)"; // is very pale yellow
+	ctx.fillStyle = "#ffffee"; // is also pale yellow
 ```
 After that we call `fillRect`. This method will just create the rectangle on the canvas. The syntax is:
 
