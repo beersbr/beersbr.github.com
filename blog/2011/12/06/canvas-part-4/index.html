@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Canvas part 4: A game loop - BrettBeers</title>
+  <meta name="author" content="Brett Beers">
+
+  
+  <meta name="description" content="A game loop in javascript A game loop is pretty pivotal in any game taking on a common format of update() -> draw(). Meaning that you update() all of &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://beersbr.github.com/blog/2011/12/06/canvas-part-4">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="/javascripts/ender.js"></script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/atom.xml" rel="alternate" title="BrettBeers" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">BrettBeers</a></h1>
+  
+    <h2>Programming noob... working on being less of a noob</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:beersbr.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Canvas Part 4: A Game Loop</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-06T13:36:00-07:00" pubdate data-updated="true">Dec 6<span>th</span>, 2011</time>
+        
+         | <a href="#disqus_thread">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h3>A game loop in javascript</h3>
+
+<p>A game loop is pretty pivotal in any game taking on a common format of update() -> draw(). Meaning that you update() all of your game objects and data for the current frame and then draw that frame to the screen. We do this over and over at a fixed framerate (usually 30 or 60 frames per second) and we get an animation. Things like user input and system changes would go into the update() section, while all your drawing calls would go into the draw() section. Here is a quick example:</p>
+
+<figure class='code'><figcaption><span>moving_box </span><a href='http://tinkerbin.com/pP0suTI6'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//...</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">interval</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// get the canvas width and height</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">scr_w</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
+</span><span class='line'><span class="kd">var</span> <span class="nx">scr_h</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Rect</span><span class="p">(){</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">var</span> <span class="nx">urect</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rect</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Update</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">urect</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="p">(</span><span class="nx">urect</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="nx">scr_w</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">urect</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="p">(</span><span class="nx">urect</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="nx">scr_h</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Draw</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span> <span class="c1">// save the context state so we don&#39;t disrupt any other draw calls</span>
+</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgb(100, 200, 100)&quot;</span><span class="p">;</span>
+</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="nx">urect</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">urect</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">restore</span><span class="p">();</span> <span class="c1">// restore the context state to whatever it was before</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="kd">function</span> <span class="nx">Loop</span><span class="p">(){</span>
+</span><span class='line'>  <span class="nx">Update</span><span class="p">();</span>
+</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">scr_w</span><span class="p">,</span> <span class="nx">scr_h</span><span class="p">);</span>
+</span><span class='line'>  <span class="nx">Draw</span><span class="p">();</span>  
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">interval</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="p">(</span><span class="nx">Loop</span><span class="p">,</span> <span class="mi">1000</span><span class="o">/</span><span class="mi">30</span><span class="p">);</span> <span class="c1">// run it at 30 fps</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">//...</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Ok I haven&#8217;t done anything completely new except for the use of <code>setInterval</code>. We are using it to repeat the game loop at a fixed amount of time. It&#8217;s somewhat crude but for now it will work perfectly. The sytax for <code>setInterval</code> is as follows:</p>
+
+<pre><code>integer_id setInterval(function_pointer, time_interval_mili);
+</code></pre>
+
+<p>It returns an id that can be used by a sister function <code>clearInterval(id)</code> to stop the interval. Then you pass a function pointer or a string of code. Lastly you give it the time interval at which to execute the function or code passed to <code>setInterval</code>. 1000 miliseconcs is a second. So if we divide by the desired framerate we will be given the amount of miliseconds it takes to achieve that.</p>
+
+<h3>Stepping through the rest of the code</h3>
+
+<p>Now to iterate over the rest of the code we do the usual stuff by getting the canvas and context into variables. Secondly we create an object named <code>Rect</code> which is just a container for holding some values. We instanciate a <code>Rect</code> as <code>urect</code>. Then there is a funciton for updating the state of <code>urect</code>. It takes the current x position, <code>urect.x</code>, and increses it by 1 and the mod operator makes sure that we never go over the max screen width. It does the same with <code>urect.y</code>. We grave the max screen width <code>scr_w</code> and <code>scr_h</code> right from the canvas.</p>
+
+<p>Next we have the <code>Draw()</code> function which takes our object instace and handles drawing a rectangle at the position of our <code>urect</code>. We use <code>save()</code> and <code>restore()</code> in this function so that if we have another method that is drawing stuff we dont interupt its drawing. Think of it as saving a set attributes onto a stack similar to openGl, for anyone who has used openGl. The <code>save()</code> function saves all the current canvas attributes. While <code>restore()</code> pops the last save off the &#8220;stack&#8221; and the attributes go back to whatever they were before the last <code>save()</code> call.</p>
+
+<p>Lastly we have the <code>Loop()</code> function which is used in <code>setInterval()</code> to update the game objects and draw them to the canvas. All that loop does is act as a container for <code>setInterval()</code>. We call <code>Update()</code> then we clear the canvas so you don&#8217;t have multiple images on the screen. Then it call <code>Draw()</code> which draws the rectangle on the canvas.</p>
+
+<h3>And a game loop is made&#8230;</h3>
+
+<p>While this example was simple it&#8217;s not entirely unrealistic. Things will get more interesting after some of the simple parts are covered. Have fun!</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Brett Beers</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-12-06T13:36:00-07:00" pubdate data-updated="true">Dec 6<span>th</span>, 2011</time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/programming/'>programming</a>, <a class='category' href='/blog/categories/tutorial/'>tutorial</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://beersbr.github.com/blog/2011/12/06/canvas-part-4/" data-via="mramaizng" data-counturl="http://beersbr.github.com/blog/2011/12/06/canvas-part-4/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/11/26/canvas-part-3-dot-1-adding-audio/" title="Previous Post: Canvas part 3.1: Adding audio">&laquo; Canvas part 3.1: Adding audio</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2011/12/06/canvas-part-4/">Canvas part 4: A game loop</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/26/canvas-part-3-dot-1-adding-audio/">Canvas part 3.1: Adding audio</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/24/canvas-part-3-a-change-in-direction/">Canvas part 3: A change in direction (or Images)</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/23/canvas-part-2-shapes-and-stuff/">Canvas part 2: Shapes and stuff</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2011/11/22/and-so-it-began-dot-dot-dot/">Canvas part 1: And so it begins...</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>Github Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/beersbr">@beersbr</a> on Github
+  
+  <script type="text/javascript">
+    $.domReady(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'beersbr',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+<section>
+  <h1>Latest Tweets</h1>
+  <ul id="tweets">
+    <li class="loading">Status updating...</li>
+  </ul>
+  <script type="text/javascript">
+    $.domReady(function(){
+      getTwitterFeed("mramaizng", 4, false);
+    });
+  </script>
+  <script src="/javascripts/twitter.js" type="text/javascript"> </script>
+  
+    <a href="http://twitter.com/mramaizng" class="twitter-follow-button" data-width="208px" data-show-count="false">Follow @mramaizng</a>
+  
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2011 - Brett Beers -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'brettbeers';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://beersbr.github.com/blog/2011/12/06/canvas-part-4/';
+        var disqus_url = 'http://beersbr.github.com/blog/2011/12/06/canvas-part-4/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) {return;}
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#appId=212934732101925&xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var script = document.createElement('script'); script.type = 'text/javascript'; script.async = true;
+      script.src = 'https://apis.google.com/js/plusone.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(script, s);
+    })();
+  </script>
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
