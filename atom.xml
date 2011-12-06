@@ -4,7 +4,7 @@
   <title><![CDATA[BrettBeers]]></title>
   <link href="http://beersbr.github.com/atom.xml" rel="self"/>
   <link href="http://beersbr.github.com/"/>
-  <updated>2011-11-26T22:42:34-07:00</updated>
+  <updated>2011-12-06T13:35:29-07:00</updated>
   <id>http://beersbr.github.com/</id>
   <author>
     <name><![CDATA[Brett Beers]]></name>
@@ -139,8 +139,13 @@
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 </pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">image</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
-</span><span class='line'><span class="nx">i</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/an.img&quot;</span><span class="p">;</span>
+</span><span class='line'><span class="nx">image</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/an.img&quot;</span><span class="p">;</span>
 </span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li>edit was made because there was an incorrect variable name in the code above. Fixed &#8216;i&#8217; to &#8216;image&#8217;</li>
+</ul>
 
 
 <p>Easy, right? Now all we have to do is draw it to the canvas. As luck would have it, that is super easy too!</p>
@@ -238,11 +243,11 @@
     <id>http://beersbr.github.com/blog/2011/11/22/and-so-it-began-dot-dot-dot</id>
     <content type="html"><![CDATA[<h3>The programmers obligatory disclamer</h3>
 
-<p>This is the first post of some tutorials and discoveries with HTML5&#8217;s canvas with javascript. I&#8217;m sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.</p>
+<p>This is the first post of some tutorials and discoveries with HTML5&#8217;s canvas using javascript. I&#8217;m sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.</p>
 
 <h3>Starting out with your first canvas</h3>
 
-<p>What makes working with canavs so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:</p>
+<p>What makes working with canvas so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -294,7 +299,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assignt that to ctx. Now that we have a context to draw on we can set the fillStyle of the context. The fillStyle tells the context what color to fill objects with.
+<p>Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assign it to the variable ctx. Now that we have a context to draw on, we can set the <code>fillStyle</code> of the context. The <code>fillStyle</code> tells the context what color to fill objects with.
 You can use several forms for specifying the color:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -306,7 +311,7 @@ You can use several forms for specifying the color:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>After that we call fillRect. This method will just create the rectangle on the canvas. The syntax is:</p>
+<p>After that we call <code>fillRect</code>. This method will just create the rectangle on the canvas. The syntax is:</p>
 
 <pre><code>fillRect(x, y, width, height)
 </code></pre>

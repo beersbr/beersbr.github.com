@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tutorial | BrettBeers]]></title>
   <link href="http://beersbr.github.com/blog/categories/tutorial/atom.xml" rel="self"/>
   <link href="http://beersbr.github.com/"/>
-  <updated>2011-11-26T22:42:34-07:00</updated>
+  <updated>2011-12-06T13:35:29-07:00</updated>
   <id>http://beersbr.github.com/</id>
   <author>
     <name><![CDATA[Brett Beers]]></name>
@@ -61,11 +61,11 @@ window.onload = function(){
     <id>http://beersbr.github.com/blog/2011/11/22/and-so-it-began-dot-dot-dot</id>
     <content type="html"><![CDATA[<h3>The programmers obligatory disclamer</h3>
 
-<p>This is the first post of some tutorials and discoveries with HTML5's canvas with javascript. I'm sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.</p>
+<p>This is the first post of some tutorials and discoveries with HTML5's canvas using javascript. I'm sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.</p>
 
 <h3>Starting out with your first canvas</h3>
 
-<p>What makes working with canavs so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:</p>
+<p>What makes working with canvas so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:</p>
 
 <p>``` html
 <html>
@@ -103,8 +103,8 @@ ctx.fillRect(50, 50, 200, 150);
 <p>}</p>
 
 <p>//</head>
-```
-Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assignt that to ctx. Now that we have a context to draw on we can set the fillStyle of the context. The fillStyle tells the context what color to fill objects with.
+<code>``
+Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assign it to the variable ctx. Now that we have a context to draw on, we can set the</code>fillStyle<code>of the context. The</code>fillStyle` tells the context what color to fill objects with.
 You can use several forms for specifying the color:</p>
 
 <p>``` javascript</p>
@@ -114,8 +114,8 @@ You can use several forms for specifying the color:</p>
 "#ffffee"; // is also pale yellow
 </code></pre>
 
-<p>```
-After that we call fillRect. This method will just create the rectangle on the canvas. The syntax is:</p>
+<p><code>``
+After that we call</code>fillRect`. This method will just create the rectangle on the canvas. The syntax is:</p>
 
 <pre><code>fillRect(x, y, width, height)
 </code></pre>

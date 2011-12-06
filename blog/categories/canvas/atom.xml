@@ -4,7 +4,7 @@
   <title><![CDATA[Category: canvas | BrettBeers]]></title>
   <link href="http://beersbr.github.com/blog/categories/canvas/atom.xml" rel="self"/>
   <link href="http://beersbr.github.com/"/>
-  <updated>2011-11-26T22:42:34-07:00</updated>
+  <updated>2011-12-06T13:35:29-07:00</updated>
   <id>http://beersbr.github.com/</id>
   <author>
     <name><![CDATA[Brett Beers]]></name>
@@ -110,10 +110,15 @@ this.collides_with = function(an_object){
 <p>``` javascript</p>
 
 <pre><code>var image = new Image();
-i.src = "/some/path/to/an.img";
+image.src = "/some/path/to/an.img";
 </code></pre>
 
 <p>```</p>
+
+<ul>
+<li>edit was made because there was an incorrect variable name in the code above. Fixed 'i' to 'image'</li>
+</ul>
+
 
 <p>Easy, right? Now all we have to do is draw it to the canvas. As luck would have it, that is super easy too!</p>
 

@@ -9,7 +9,7 @@
   <meta name="author" content="Brett Beers">
 
   
-  <meta name="description" content="The programmers obligatory disclamer This is the first post of some tutorials and discoveries with HTML5&#8217;s canvas with javascript. I&#8217;m &hellip;">
+  <meta name="description" content="The programmers obligatory disclamer This is the first post of some tutorials and discoveries with HTML5&#8217;s canvas using javascript. I&#8217;m &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -92,11 +92,11 @@
 
 <div class="entry-content"><h3>The programmers obligatory disclamer</h3>
 
-<p>This is the first post of some tutorials and discoveries with HTML5&#8217;s canvas with javascript. I&#8217;m sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.</p>
+<p>This is the first post of some tutorials and discoveries with HTML5&#8217;s canvas using javascript. I&#8217;m sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.</p>
 
 <h3>Starting out with your first canvas</h3>
 
-<p>What makes working with canavs so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:</p>
+<p>What makes working with canvas so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -148,7 +148,7 @@
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assignt that to ctx. Now that we have a context to draw on we can set the fillStyle of the context. The fillStyle tells the context what color to fill objects with.
+<p>Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assign it to the variable ctx. Now that we have a context to draw on, we can set the <code>fillStyle</code> of the context. The <code>fillStyle</code> tells the context what color to fill objects with.
 You can use several forms for specifying the color:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -160,7 +160,7 @@ You can use several forms for specifying the color:</p>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>After that we call fillRect. This method will just create the rectangle on the canvas. The syntax is:</p>
+<p>After that we call <code>fillRect</code>. This method will just create the rectangle on the canvas. The syntax is:</p>
 
 <pre><code>fillRect(x, y, width, height)
 </code></pre>
