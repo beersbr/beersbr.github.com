@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>BrettBeers</title>
+  <title>Dynamic Lighting in 2d - BrettBeers</title>
   <meta name="author" content="Brett Beers">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://beersbr.github.com">
+  <link rel="canonical" href="http://beersbr.github.com/blog/2011/12/06/dynamic-lighting-in-2d">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/javascripts/modernizr-2.0.js"></script>
@@ -60,15 +60,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2011/12/06/dynamic-lighting-in-2d/">Dynamic Lighting in 2d</a></h1>
+      <h1 class="entry-title">Dynamic Lighting in 2d</h1>
     
     
       <p class="meta">
@@ -86,14 +83,14 @@
 
 <time datetime="2011-12-06T16:38:00-07:00" pubdate data-updated="true">Dec 6<span>th</span>, 2011</time>
         
-         | <a href="/blog/2011/12/06/dynamic-lighting-in-2d/#disqus_thread">Comments</a>
+         | <a href="#disqus_thread">Comments</a>
         
       </p>
     
   </header>
 
 
-  <div class="entry-content"><h3>A quick primer on what is needed</h3>
+<div class="entry-content"><h3>A quick primer on what is needed</h3>
 
 <p>So here is my writeup on dynamic lighting in 2d. I am using javascript for this write up but the code should be easy enough to transpose it to another language. No time to waste. Let&#8217;s get started.</p>
 
@@ -575,164 +572,16 @@ And that is pretty much how we are going to define them in the code.</p>
 
 <p>That is about it. You can mess around with it. Next time I go over shadows I will cover how to build softer shadows, adding in the penumbra so that we dont have just a hard edge. Happy coding!</p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/12/06/canvas-part-4/">Canvas Part 4: A Game Loop</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn">Brett Beers</span></span>
 
-<time datetime="2011-12-06T13:36:00-07:00" pubdate data-updated="true">Dec 6<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/12/06/canvas-part-4/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>A game loop in javascript</h3>
-
-<p>A game loop is pretty pivotal in any game taking on a common format of update() -> draw(). Meaning that you update() all of your game objects and data for the current frame and then draw that frame to the screen. We do this over and over at a fixed framerate (usually 30 or 60 frames per second) and we get an animation. Things like user input and system changes would go into the update() section, while all your drawing calls would go into the draw() section. Here is a quick example:</p>
-
-<figure class='code'><figcaption><span>moving_box </span><a href='http://tinkerbin.com/pP0suTI6'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//...</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">interval</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// get the canvas width and height</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">scr_w</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">width</span><span class="p">;</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">scr_h</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">height</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">Rect</span><span class="p">(){</span>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="mi">200</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">urect</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Rect</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">Update</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">urect</span><span class="p">.</span><span class="nx">x</span> <span class="o">=</span> <span class="p">(</span><span class="nx">urect</span><span class="p">.</span><span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="nx">scr_w</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">urect</span><span class="p">.</span><span class="nx">y</span> <span class="o">=</span> <span class="p">(</span><span class="nx">urect</span><span class="p">.</span><span class="nx">y</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="nx">scr_h</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">Draw</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span> <span class="c1">// save the context state so we don&#39;t disrupt any other draw calls</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgb(100, 200, 100)&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="nx">urect</span><span class="p">.</span><span class="nx">x</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="nx">urect</span><span class="p">.</span><span class="nx">y</span> <span class="o">-</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">restore</span><span class="p">();</span> <span class="c1">// restore the context state to whatever it was before</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">function</span> <span class="nx">Loop</span><span class="p">(){</span>
-</span><span class='line'>  <span class="nx">Update</span><span class="p">();</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">clearRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">scr_w</span><span class="p">,</span> <span class="nx">scr_h</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">Draw</span><span class="p">();</span>  
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">interval</span> <span class="o">=</span> <span class="nx">setInterval</span><span class="p">(</span><span class="nx">Loop</span><span class="p">,</span> <span class="mi">1000</span><span class="o">/</span><span class="mi">30</span><span class="p">);</span> <span class="c1">// run it at 30 fps</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//...</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Ok I haven&#8217;t done anything completely new except for the use of <code>setInterval</code>. We are using it to repeat the game loop at a fixed amount of time. It&#8217;s somewhat crude but for now it will work perfectly. The sytax for <code>setInterval</code> is as follows:</p>
-
-<pre><code>integer_id setInterval(function_pointer, time_interval_mili);
-</code></pre>
-
-<p>It returns an id that can be used by a sister function <code>clearInterval(id)</code> to stop the interval. Then you pass a function pointer or a string of code. Lastly you give it the time interval at which to execute the function or code passed to <code>setInterval</code>. 1000 miliseconcs is a second. So if we divide by the desired framerate we will be given the amount of miliseconds it takes to achieve that.</p>
-
-<h3>Stepping through the rest of the code</h3>
-
-<p>Now to iterate over the rest of the code we do the usual stuff by getting the canvas and context into variables. Secondly we create an object named <code>Rect</code> which is just a container for holding some values. We instanciate a <code>Rect</code> as <code>urect</code>. Then there is a funciton for updating the state of <code>urect</code>. It takes the current x position, <code>urect.x</code>, and increses it by 1 and the mod operator makes sure that we never go over the max screen width. It does the same with <code>urect.y</code>. We grave the max screen width <code>scr_w</code> and <code>scr_h</code> right from the canvas.</p>
-
-<p>Next we have the <code>Draw()</code> function which takes our object instace and handles drawing a rectangle at the position of our <code>urect</code>. We use <code>save()</code> and <code>restore()</code> in this function so that if we have another method that is drawing stuff we dont interupt its drawing. Think of it as saving a set attributes onto a stack similar to openGl, for anyone who has used openGl. The <code>save()</code> function saves all the current canvas attributes. While <code>restore()</code> pops the last save off the &#8220;stack&#8221; and the attributes go back to whatever they were before the last <code>save()</code> call.</p>
-
-<p>Lastly we have the <code>Loop()</code> function which is used in <code>setInterval()</code> to update the game objects and draw them to the canvas. All that loop does is act as a container for <code>setInterval()</code>. We call <code>Update()</code> then we clear the canvas so you don&#8217;t have multiple images on the screen. Then it call <code>Draw()</code> which draws the rectangle on the canvas.</p>
-
-<h3>And a game loop is made&#8230;</h3>
-
-<p>While this example was simple it&#8217;s not entirely unrealistic. Things will get more interesting after some of the simple parts are covered. Have fun!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/26/canvas-part-3-dot-1-adding-audio/">Canvas Part 3.1: Adding Audio</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -744,416 +593,48 @@ And that is pretty much how we are going to define them in the code.</p>
   
 
 
-<time datetime="2011-11-26T21:49:00-07:00" pubdate data-updated="true">Nov 26<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/11/26/canvas-part-3-dot-1-adding-audio/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>Game programming in canvas</h3>
-
-<p>This is just a continuation of what I started in the last post. I covered images, so I though audio would be a good next step. Here we go&#8230;</p>
-
-<h3>Audio in javascript</h3>
-
-<p>Games aren&#8217;t really complete without audio most of the time. I have not yet figured out how to gain full control of sound in javascript but here is a good first step &#8211; Similar to the previous post on images we are going to create the element in javascript like so:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">sound</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s2">&quot;audio&quot;</span><span class="p">);</span>
-</span><span class='line'><span class="nx">sound</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;path/to/file.ogg&quot;</span><span class="p">;</span> <span class="c1">// or .wav</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// load the sound</span>
-</span><span class='line'><span class="nx">sound</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
-</span><span class='line'><span class="nx">sound</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>As said above the sound file has to be either an <code>.ogg</code> or <code>.wav</code>, at least for now. the <code>load()</code> function will make sure the data is in memory or so I have been told. Next you call <code>play()</code> and the sound will play to completion. Now looking at a context closer to that of a games; say we have an object we would load and then call <code>play()</code> during some collision or some event.</p>
-
-<h4>Example (extremetly contrived):</h4>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">function</span> <span class="nx">player</span><span class="p">(){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">my_pos</span> <span class="o">=</span> <span class="p">{</span><span class="nx">x</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">w</span><span class="p">,</span> <span class="nx">h</span><span class="p">};</span> <span class="c1">// some data describing this players position  </span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">health</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="c1">//setup sound data</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">collide_sound</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">&#39;audio&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">collide_sound</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s1">&#39;some_sound.ogg&#39;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">collide_sound</span><span class="p">.</span><span class="nx">load</span><span class="p">();</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">update</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">close_objects</span><span class="p">){</span>
-</span><span class='line'>      <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">close_objects</span><span class="p">){</span>
-</span><span class='line'>          <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">collides_with</span><span class="p">(</span><span class="nx">close_objects</span><span class="p">[</span><span class="nx">i</span><span class="p">])){</span>
-</span><span class='line'>
-</span><span class='line'>              <span class="nx">collide_sound</span><span class="p">.</span><span class="nx">play</span><span class="p">();</span>
-</span><span class='line'>              <span class="nx">health</span> <span class="o">-=</span> <span class="mi">1</span><span class="p">;</span>
-</span><span class='line'>              <span class="c1">// do some stuff </span>
-</span><span class='line'>          <span class="p">}</span>
-</span><span class='line'>      <span class="p">}</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">draw</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>      <span class="c1">// some drawing code here</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="k">this</span><span class="p">.</span><span class="nx">collides_with</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">an_object</span><span class="p">){</span>
-</span><span class='line'>      <span class="c1">// a collision function of some sort</span>
-</span><span class='line'>  <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">// then we create a new player object and use it in our game.</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Just some psudo code to give you an idea of how it would be used. You can also make a nice tune for the game in the background as you can have multiple audio files loaded and they can even be played at the same time.</p>
-
-<h3>Some other neat parts to take note of&#8230;</h3>
-
-<ul>
-<li><code>audioELement.currentTime = 10;</code> will set the media time to 10 seconds.</li>
-<li><code>audioElement.duration;</code> will return the duration of the media.</li>
-<li><code>audioElement.pause();</code> will pause the media. There is no <code>stop()</code> for what ever reason but you can unset the src and reset the src (as an ugly hack) if you need to stop it.</li>
-</ul>
-
-
-<p>Those are just handy to remember. As always you can check the <a href="hhttps://developer.mozilla.org/En/Using_audio_and_video_in_Firefox">MDN docs</a>. Hope this helps!</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2011-12-06T16:38:00-07:00" pubdate data-updated="true">Dec 6<span>th</span>, 2011</time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/24/canvas-part-3-a-change-in-direction/">Canvas Part 3: A Change in Direction (or Images)</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/2d/'>2d</a>, <a class='category' href='/blog/categories/game-programming/'>game-programming</a>, <a class='category' href='/blog/categories/graphics/'>graphics</a>, <a class='category' href='/blog/categories/javascript/'>javascript</a>, <a class='category' href='/blog/categories/programming/'>programming</a>
+  
+</span>
 
 
-<time datetime="2011-11-24T00:00:00-07:00" pubdate data-updated="true">Nov 24<span>th</span>, 2011</time>
-        
-         | <a href="/blog/2011/11/24/canvas-part-3-a-change-in-direction/#disqus_thread">Comments</a>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><h3>Game programming in canvas</h3>
-
-<p>Hopefully by know you have played with some of the drawing functions I used in the last two tutorials. I am sort of changing directions because programming games makes things really interesting and canvas gives you a quick platform to use. But first we need to discuss how we are going to get certain things on the browser. Things like images, sounds, key events, etc etc.</p>
-
-<h3>Images in canvas (but mostly javascript)</h3>
-
-<p>As it turns out drawing images on the screen is actually very simple:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">image</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
-</span><span class='line'><span class="nx">image</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/an.img&quot;</span><span class="p">;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li>edit was made because there was an incorrect variable name in the code above. Fixed &#8216;i&#8217; to &#8216;image&#8217;</li>
-</ul>
-
-
-<p>Easy, right? Now all we have to do is draw it to the canvas. As luck would have it, that is super easy too!</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
-</span><span class='line'><span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Image</span><span class="p">();</span>
-</span><span class='line'><span class="nx">i</span><span class="p">.</span><span class="nx">src</span> <span class="o">=</span> <span class="s2">&quot;/some/path/to/an.img&quot;</span><span class="p">;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nx">ctx</span><span class="p">.</span><span class="nx">drawImage</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">);</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now that loads an image and draws it on the canvas at (100, 100). There are several <code>drawImage()</code> functions. They are all similar but are good to know so lets go ver them now.</p>
-
-<ul>
-<li><code>drawImage(image, x, y)</code> Draws an image from the top left corner at (x, y). This is the function I used above.</li>
-<li><code>drawImage(image, x, y, width, height)</code> Draws an image to (x, y), as the size width, and height. It is basically a way to scale your images in canvas.</li>
-<li><code>drawImage(image, source_x, source_y, source_height, source_width, destination_x, destination_y, destination_width, destination_height)</code> This one is a bit more complex in that it allows you to slice your image. This is useful for tile-sheets or sprite-maps. Source_* creates a rectangle you want to grab from the original image and destination is where  you are going to put that rectangle. You can tinker around with that by use the code above and playing with each function. I will put up some code as well in the very near future.</li>
-</ul>
-
-
-<p>One thing to note is that you can&#8217;t grab coordinates that are not in the image. For example if you have an image with a width of 100 and height of 100, you can grab coordinates (-1, -1) to (500, 500). From my experience that will produce javascript image read errors.</p>
-
-<h3>Splitting this section</h3>
-
-<p>In an effort to keep these posts at a readable length I am going to split this part into sub parts. This was the image section and I will go over audio and then key events. You can find more information by checking out the <a href="https://developer.mozilla.org/en/HTML/Canvas">MDN docs</a>. You can also just send me a message with any thing you might have. Thank you!</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://beersbr.github.com/blog/2011/12/06/dynamic-lighting-in-2d/" data-via="mramaizng" data-counturl="http://beersbr.github.com/blog/2011/12/06/dynamic-lighting-in-2d/" >Tweet</a>
+  
+  
+  <div class="g-plusone" data-size="medium"></div>
+  
+  
+    <div class="fb-like" data-send="true" data-width="450" data-show-faces="false"></div>
+  
 </div>
-  
-  
 
-
-    </article>
-  
-  
-    <article>
+    
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/23/canvas-part-2-shapes-and-stuff/">Canvas Part 2: Shapes and Stuff</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-23T13:41:00-07:00" pubdate data-updated="true">Nov 23<span>rd</span>, 2011</time>
-        
-         | <a href="/blog/2011/11/23/canvas-part-2-shapes-and-stuff/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>A little more interesting</h3>
-
-<p>The last tutorial I just showed how to get the canvas up on a page and into a state that something could be done with it. But drawing rectangles is kinda boring. So now I&#8217;ll show you something a little more interesting.</p>
-
-<h3>Shapes!</h3>
-
-<p>Shapes are made by using paths to vertecies. For this we use the <code>moveTo(x, y)</code> and <code>lineTo(x, y)</code> methods.</p>
-
-<ul>
-<li><p><code>moveTo(x, y)</code> will move you to a point (x, y) without tracing the path to that point (x and y are pixel units). You usually use it for the start of your path.</p></li>
-<li><p><code>lineTo(x, y)</code> will move you to a point (x, y) and trace the path there. So when we call <code>fill()</code> or <code>stroke()</code> (we will discuss them shortly ) we have something to draw.</p></li>
-</ul>
-
-
-<p>Let&#8217;s have a look at the javascript:</p>
-
-<figure class='code'><figcaption><span>paths </span><a href='http://tinkerbin.com/J92xNsA6'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">moveTo</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">250</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">150</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">lineTo</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">);</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">strokeStyle</span> <span class="o">=</span> <span class="s2">&quot;rgb(0, 255, 0)&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">stroke</span><span class="p">();</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>We do a few things here. First we grab the canvas element. Then we <code>moveTo(50, 50)</code> which moves our invisible cursor to point 50, 50 on the canvas where the positive Y moves down instead of up. The next thing we do is use <code>lineTo(250, 50)</code> which will make a line from (50, 50), the previous point, to (250, 50) on the canvas. We do this several time till we close the shape with the <code>lineTo(50, 50)</code> from (150, 150).</p>
-
-<p>Finally we draw the shape by calling <code>stroke()</code>. Shapes like this wont be drawn unless you call either stroke, drawing only the outline of the shape, or fill which will fill the shape in for you. You can call both to get a stroke and fill. Check out the <a href="http://tinkerbin.com/J92xNsA6">link</a> to play around with it.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+        <a class="basic-alignment left" href="/blog/2011/12/06/canvas-part-4/" title="Previous Post: Canvas part 4: A game loop">&laquo; Canvas part 4: A game loop</a>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/11/22/and-so-it-began-dot-dot-dot/">Canvas Part 1: And So It Begins&#8230;</a></h1>
-    
-    
-      <p class="meta">
-        
+      
+    </p>
+  </footer>
+</article>
 
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-11-22T23:41:00-07:00" pubdate data-updated="true">Nov 22<span>nd</span>, 2011</time>
-        
-         | <a href="/blog/2011/11/22/and-so-it-began-dot-dot-dot/#disqus_thread">Comments</a>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h3>The programmers obligatory disclamer</h3>
-
-<p>This is the first post of some tutorials and discoveries with HTML5&#8217;s canvas using javascript. I&#8217;m sure I am not doing everything perfect and am certainly open to suggestions and corrections but mostly hope to create a segue from greater canvas noob to lesser canvas noob.</p>
-
-<h3>Starting out with your first canvas</h3>
-
-<p>What makes working with canvas so nice is how fast you can get things up and running. You dont need a compiler or a big IDE or knowledge of any complex graphics libraries. All you need is a browser and some javascript. Here is as simple as it gets:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;html&gt;</span>
-</span><span class='line'><span class="nt">&lt;head&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;script&gt;</span>
-</span><span class='line'>      <span class="c1">// We will just put our javascript right in the head</span>
-</span><span class='line'>  <span class="nt">&lt;/script&gt;</span>
-</span><span class='line'><span class="nt">&lt;/head&gt;</span>
-</span><span class='line'><span class="nt">&lt;body&gt;</span>
-</span><span class='line'>  <span class="nt">&lt;canvas</span> <span class="na">id=</span><span class="s">&#39;c&#39;</span> <span class="na">width=</span><span class="s">640</span> <span class="na">height=</span><span class="s">480</span><span class="nt">&gt;&lt;/canvas&gt;</span>
-</span><span class='line'><span class="nt">&lt;/body&gt;</span>
-</span><span class='line'><span class="nt">&lt;/html&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That was easy enough right? Now iff you run this you probably wont see anything, as the background of the canvas is probably white. So let&#8217;s draw some stuff on the screen.</p>
-
-<figure class='code'><figcaption><span>yellow_rectangle </span><a href='http://tinkerbin.com/H4Bdbt4B'>link</a></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="c1">//&lt;head&gt;</span>
-</span><span class='line'>
-</span><span class='line'><span class="nb">window</span><span class="p">.</span><span class="nx">onload</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">cvs</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">&#39;c&#39;</span><span class="p">);</span>
-</span><span class='line'>  <span class="kd">var</span> <span class="nx">ctx</span> <span class="o">=</span> <span class="nx">cvs</span><span class="p">.</span><span class="nx">getContext</span><span class="p">(</span><span class="s1">&#39;2d&#39;</span><span class="p">);</span>
-</span><span class='line'>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgb(255, 255, 0)&quot;</span><span class="p">;</span>
-</span><span class='line'>  <span class="nx">ctx</span><span class="p">.</span><span class="nx">fillRect</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">150</span><span class="p">);</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="c1">//&lt;/head&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now looking at the code, you can probably see everything that is happening. First we grab the canvas element and assign it to variable cvs. Secondly we set the context to 2d and assign it to the variable ctx. Now that we have a context to draw on, we can set the <code>fillStyle</code> of the context. The <code>fillStyle</code> tells the context what color to fill objects with.
-You can use several forms for specifying the color:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgb(255, 255, 255)&quot;</span><span class="p">;</span> <span class="c1">// is white</span>
-</span><span class='line'><span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;rgba(255, 255, 200, 1.0)&quot;</span><span class="p">;</span> <span class="c1">// is very pale yellow</span>
-</span><span class='line'><span class="nx">ctx</span><span class="p">.</span><span class="nx">fillStyle</span> <span class="o">=</span> <span class="s2">&quot;#ffffee&quot;</span><span class="p">;</span> <span class="c1">// is also pale yellow</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>After that we call <code>fillRect</code>. This method will just create the rectangle on the canvas. The syntax is:</p>
-
-<pre><code>fillRect(x, y, width, height)
-</code></pre>
-
-<h3>There you have it!</h3>
-
-<p>Now that you know how to get started with the canvas try drawing some other objects. You can just take a look at <a href="http://tinkerbin.com/H4Bdbt4B" title="tinkerbin">this</a> tinkerbin. Look out for the next tutorial on more complex shapes.</p>
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 </div>
-  
-  
+  </section>
 
-
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 <aside class="sidebar">
   
     <section>
@@ -1186,7 +667,7 @@ You can use several forms for specifying the color:</p>
 <section>
   <h1>Github Repos</h1>
   <ul id="gh_repos">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   
   <a href="https://github.com/beersbr">@beersbr</a> on Github
@@ -1216,7 +697,7 @@ You can use several forms for specifying the color:</p>
 <section>
   <h1>Latest Tweets</h1>
   <ul id="tweets">
-    <li class="loading">Status updating&#8230;</li>
+    <li class="loading">Status updating...</li>
   </ul>
   <script type="text/javascript">
     $.domReady(function(){
@@ -1236,6 +717,7 @@ You can use several forms for specifying the color:</p>
   
 </aside>
 
+
     </div>
   </div>
   <footer role="contentinfo"><p>
@@ -1250,7 +732,10 @@ You can use several forms for specifying the color:</p>
       var disqus_shortname = 'brettbeers';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://beersbr.github.com/blog/2011/12/06/dynamic-lighting-in-2d/';
+        var disqus_url = 'http://beersbr.github.com/blog/2011/12/06/dynamic-lighting-in-2d/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
